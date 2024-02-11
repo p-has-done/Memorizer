@@ -34,5 +34,5 @@ def parse(lines):
     return ret
 
 
-if __name__ == "__main__":
-    print(parse(readAnswerFile()))
+def getAnswerSheet():
+    return parse(readAnswerFile())
