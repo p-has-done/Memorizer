@@ -9,10 +9,10 @@ class Answer:
         self.eng = eng
 
     def cmpKor(self, other):
-        return self.kor == other
+        return self.kor.strip() == other.strip()
 
     def cmpEng(self, other):
-        return self.eng == other
+        return self.eng.strip().lower() == other.strip().lower()
 
     def __repr__(self):
         return "[정답: 국문명 %s, 영문명 %s]" % (self.kor, self.eng)
