@@ -15,5 +15,9 @@ pyinstaller -w -F src/main.py
 
 ## Usage
 1. [resources/images](resources/images/)에 사진을 넣으세요.
+    - 이때 사진의 이름은 #. chapter_name이어야 합니다.
+    - (예) 1. 심장의 구조
 1. [resources/answer.csv](resources/answer.csv)에 사진과 상응하는 답안을 양식에 맞추어 적으세요.
+    - 첫째 줄은 헤더입니다. 남겨 주세요.
+    - 둘째 줄부터 각 항목을 쉼표로 구분하여 한 줄에 답을 한 개씩 적으세요.
 1. [이곳](dist/main.exe)에 있는 파일을 실행하세요.
