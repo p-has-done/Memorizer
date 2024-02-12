@@ -100,7 +100,7 @@ class Ui_Main(object):
         self.configBtn.setText(
             "환경설정 (제한시간 10초, 대소문자 무시)",
         )
-        self.startBtn.setText("시작 (Enter)")
+        self.startBtn.setText("시작(Enter)")
 
     # retranslateUi
 
@@ -109,8 +109,8 @@ class Ui_Config(object):
     def setupUi(self, Form):
         if not Form.objectName():
             Form.setObjectName("Form")
-        Form.resize(257, 58)
-        Form.setMinimumSize(QSize(257, 0))
+        Form.resize(256, 58)
+        Form.setMinimumSize(QSize(256, 0))
         self.formLayout = QFormLayout(Form)
         self.formLayout.setObjectName("formLayout")
         self.label = QLabel(Form)
