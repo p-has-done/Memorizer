@@ -80,13 +80,11 @@ class Ui_Main(QWidget):
 
         self.verticalLayout.addWidget(self.startBtn)
 
-        self.retranslateUi()
+        self.setTexts()
 
         QMetaObject.connectSlotsByName(self)
 
-    # setupUi
-
-    def retranslateUi(self):
+    def setTexts(self):
         self.setWindowTitle("Memorizer")
         self.label.setText(
             "___  ___                          _              \n"
@@ -102,8 +100,6 @@ class Ui_Main(QWidget):
             "환경설정(제한시간 10초, 대소문자 무시)",
         )
         self.startBtn.setText("시작(Enter)")
-
-    # retranslateUi
 
 
 class Ui_Config(QWidget):
@@ -140,18 +136,14 @@ class Ui_Config(QWidget):
 
         self.formLayout.setWidget(1, QFormLayout.FieldRole, self.checkBox)
 
-        self.retranslateUi()
+        self.setTexts()
 
         QMetaObject.connectSlotsByName(self)
 
-    # setupUi
-
-    def retranslateUi(self):
+    def setTexts(self):
         self.setWindowTitle("Config")
         self.label.setText("제한시간 (기본 10초)")
         self.label_2.setText("영문명 대소문자 무시")
-
-    # retranslateUi
 
 
 class Ui_Quiz(QWidget):
@@ -199,21 +191,17 @@ class Ui_Quiz(QWidget):
 
         self.verticalLayout.addWidget(self.pushButton)
 
-        self.retranslateUi()
+        self.setTexts()
 
         QMetaObject.connectSlotsByName(self)
 
-    # setupUi
-
-    def retranslateUi(self, Form):
+    def setTexts(self, Form):
         self.setWindowTitle("Quiz")
         self.label_quiz.setText("사진")
         self.label_image.setText("문제")
         self.lineEdit_kor.setPlaceholderText("국문명")
         self.lineEdit_eng.setPlaceholderText("영문명")
         self.pushButton.setText("확인(Enter)")
-
-    # retranslateUi
 
 
 def warning(msg):
