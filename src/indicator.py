@@ -36,3 +36,21 @@ def parse(lines):
 
 def getAnswerSheet():
     return parse(readAnswerFile())
+
+
+def cut_chapters(image_names):
+    chapters = list()
+    invalid_chapters = list()
+
+    for name in image_names:
+        try:
+            idx = name.index(".")
+            chapters.append([int(name[:idx]), name[idx + 1 :]])
+        except ValueError:
+            invalid_chapters.append(name)
+
+    chapters.sort(key=lambda x: x[0])
+    for i, (chapter_num, _) in enumerate(chapters):
+        chapters[i][0] = str(chapter_num)
+
+    return (chapters, invalid_chapters)
