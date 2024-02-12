@@ -50,14 +50,12 @@ from PySide6.QtWidgets import (
 )
 
 
-class Ui_Main(object):
-    def setupUi(self, Form):
-        if not Form.objectName():
-            Form.setObjectName("Form")
-        Form.resize(368, 201)
-        self.verticalLayout = QVBoxLayout(Form)
+class Ui_Main(QWidget):
+    def setupUi(self):
+        self.resize(368, 201)
+        self.verticalLayout = QVBoxLayout(self)
         self.verticalLayout.setObjectName("verticalLayout")
-        self.label = QLabel(Form)
+        self.label = QLabel(self)
         self.label.setObjectName("label")
         self.label.setStyleSheet('font: 10pt "Consolas";')
         self.label.setTextFormat(Qt.AutoText)
@@ -65,31 +63,31 @@ class Ui_Main(object):
 
         self.verticalLayout.addWidget(self.label)
 
-        self.comboBox = QComboBox(Form)
+        self.comboBox = QComboBox(self)
         self.comboBox.addItem("")
         self.comboBox.setObjectName("comboBox")
 
         self.verticalLayout.addWidget(self.comboBox)
 
-        self.configBtn = QPushButton(Form)
+        self.configBtn = QPushButton(self)
         self.configBtn.setObjectName("configBtn")
 
         self.verticalLayout.addWidget(self.configBtn)
 
-        self.startBtn = QPushButton(Form)
+        self.startBtn = QPushButton(self)
         self.startBtn.setObjectName("startBtn")
         self.startBtn.setShortcut("Return")
 
         self.verticalLayout.addWidget(self.startBtn)
 
-        self.retranslateUi(Form)
+        self.retranslateUi()
 
-        QMetaObject.connectSlotsByName(Form)
+        QMetaObject.connectSlotsByName(self)
 
     # setupUi
 
-    def retranslateUi(self, Form):
-        Form.setWindowTitle("Memorizer")
+    def retranslateUi(self):
+        self.setWindowTitle("Memorizer")
         self.label.setText(
             "___  ___                          _              \n"
             "|  \\/  |                         (_)             \n"
@@ -108,20 +106,18 @@ class Ui_Main(object):
     # retranslateUi
 
 
-class Ui_Config(object):
-    def setupUi(self, Form):
-        if not Form.objectName():
-            Form.setObjectName("Form")
-        Form.resize(256, 58)
-        Form.setMinimumSize(QSize(256, 0))
-        self.formLayout = QFormLayout(Form)
+class Ui_Config(QWidget):
+    def setupUi(self):
+        self.resize(256, 58)
+        self.setMinimumSize(QSize(256, 0))
+        self.formLayout = QFormLayout(self)
         self.formLayout.setObjectName("formLayout")
-        self.label = QLabel(Form)
+        self.label = QLabel(self)
         self.label.setObjectName("label")
 
         self.formLayout.setWidget(0, QFormLayout.LabelRole, self.label)
 
-        self.horizontalSlider = QSlider(Form)
+        self.horizontalSlider = QSlider(self)
         self.horizontalSlider.setObjectName("horizontalSlider")
         self.horizontalSlider.setMinimum(5)
         self.horizontalSlider.setMaximum(15)
@@ -133,86 +129,84 @@ class Ui_Config(object):
 
         self.formLayout.setWidget(0, QFormLayout.FieldRole, self.horizontalSlider)
 
-        self.label_2 = QLabel(Form)
+        self.label_2 = QLabel(self)
         self.label_2.setObjectName("label_2")
 
         self.formLayout.setWidget(1, QFormLayout.LabelRole, self.label_2)
 
-        self.checkBox = QCheckBox(Form)
+        self.checkBox = QCheckBox(self)
         self.checkBox.setObjectName("checkBox")
         self.checkBox.setChecked(True)
 
         self.formLayout.setWidget(1, QFormLayout.FieldRole, self.checkBox)
 
-        self.retranslateUi(Form)
+        self.retranslateUi()
 
-        QMetaObject.connectSlotsByName(Form)
+        QMetaObject.connectSlotsByName(self)
 
     # setupUi
 
-    def retranslateUi(self, Form):
-        Form.setWindowTitle("Config")
+    def retranslateUi(self):
+        self.setWindowTitle("Config")
         self.label.setText("제한시간 (기본 10초)")
         self.label_2.setText("영문명 대소문자 무시")
 
     # retranslateUi
 
 
-class Ui_Quiz(object):
-    def setupUi(self, Form):
-        if not Form.objectName():
-            Form.setObjectName("Form")
-        Form.resize(640, 480)
-        Form.setMinimumSize(QSize(640, 480))
-        self.verticalLayout = QVBoxLayout(Form)
+class Ui_Quiz(QWidget):
+    def setupUi(self):
+        self.resize(640, 480)
+        self.setMinimumSize(QSize(640, 480))
+        self.verticalLayout = QVBoxLayout(self)
         self.verticalLayout.setObjectName("verticalLayout")
-        self.label_quiz = QLabel(Form)
+        self.label_quiz = QLabel(self)
         self.label_quiz.setObjectName("label_quiz")
 
         self.verticalLayout.addWidget(self.label_quiz)
 
-        self.label_image = QLabel(Form)
+        self.label_image = QLabel(self)
         self.label_image.setObjectName("label_image")
 
         self.verticalLayout.addWidget(self.label_image)
 
-        self.line = QFrame(Form)
+        self.line = QFrame(self)
         self.line.setObjectName("line")
         self.line.setFrameShape(QFrame.HLine)
         self.line.setFrameShadow(QFrame.Sunken)
 
         self.verticalLayout.addWidget(self.line)
 
-        self.progressBar = QProgressBar(Form)
+        self.progressBar = QProgressBar(self)
         self.progressBar.setObjectName("progressBar")
         self.progressBar.setValue(24)
 
         self.verticalLayout.addWidget(self.progressBar)
 
-        self.lineEdit_kor = QLineEdit(Form)
+        self.lineEdit_kor = QLineEdit(self)
         self.lineEdit_kor.setObjectName("lineEdit_kor")
 
         self.verticalLayout.addWidget(self.lineEdit_kor)
 
-        self.lineEdit_eng = QLineEdit(Form)
+        self.lineEdit_eng = QLineEdit(self)
         self.lineEdit_eng.setObjectName("lineEdit_eng")
 
         self.verticalLayout.addWidget(self.lineEdit_eng)
 
-        self.pushButton = QPushButton(Form)
+        self.pushButton = QPushButton(self)
         self.pushButton.setObjectName("pushButton")
         self.pushButton.setShortcut("Return")
 
         self.verticalLayout.addWidget(self.pushButton)
 
-        self.retranslateUi(Form)
+        self.retranslateUi()
 
-        QMetaObject.connectSlotsByName(Form)
+        QMetaObject.connectSlotsByName(self)
 
     # setupUi
 
     def retranslateUi(self, Form):
-        Form.setWindowTitle("Quiz")
+        self.setWindowTitle("Quiz")
         self.label_quiz.setText("사진")
         self.label_image.setText("문제")
         self.lineEdit_kor.setPlaceholderText("국문명")

@@ -34,17 +34,14 @@ if foo != bar:
 
 # basic UI components
 ui_main = Ui_Main()
-ui_config = Ui_Config()
-ui_Quiz = Ui_Quiz()
 
 # set UI
-main_window = QWidget()
-ui_main.setupUi(main_window)
+ui_main.setupUi()
 
 # register chapter names
 for chapter_num, chapter_name in chapters:
     ui_main.comboBox.addItem("%s. %s" % (chapter_num, chapter_name))
 
 # start application
-main_window.show()
+ui_main.show()
 app.exec()
