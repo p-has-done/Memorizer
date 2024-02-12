@@ -153,3 +153,12 @@ class Ui_Config(object):
         self.label_2.setText("영문명 대소문자 무시")
 
     # retranslateUi
+
+
+def warning(msg):
+    QMessageBox.warning(None, "Warning", msg)
+
+
+def critical(msg):
+    QMessageBox.critical(None, "Error", msg)
+    exit()
