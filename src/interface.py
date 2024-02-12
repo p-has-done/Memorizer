@@ -99,7 +99,7 @@ class Ui_Main(QWidget):
         self.comboBox.setItemText(0, "--- 선택 ---")
 
         self.configBtn.setText(
-            "환경설정 (제한시간 10초, 대소문자 무시)",
+            "환경설정(제한시간 10초, 대소문자 무시)",
         )
         self.startBtn.setText("시작(Enter)")
 
