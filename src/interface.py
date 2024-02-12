@@ -13,6 +13,7 @@ from PySide6.QtCore import (
     QTime,
     QUrl,
     Qt,
+    Slot,
 )
 from PySide6.QtGui import (
     QBrush,
@@ -51,6 +52,11 @@ from PySide6.QtWidgets import (
 
 
 class Ui_Main(QWidget):
+    def __init__(self):
+        super().__init__()
+        self.setupUi()
+        self.configWindow = Ui_Config()
+
     def setupUi(self):
         self.resize(368, 201)
         self.verticalLayout = QVBoxLayout(self)
@@ -101,8 +107,20 @@ class Ui_Main(QWidget):
         )
         self.startBtn.setText("시작(Enter)")
 
+    @Slot()
+    def on_configBtn_clicked(self):
+        self.configWindow.show()
+
+    @Slot()
+    def on_startBtn_clicked(self):
+        print("on_startBtn_clicked")
+
 
 class Ui_Config(QWidget):
+    def __init__(self):
+        super().__init__()
+        self.setupUi()
+
     def setupUi(self):
         self.resize(256, 58)
         self.setMinimumSize(QSize(256, 0))

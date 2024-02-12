@@ -35,9 +35,6 @@ if foo != bar:
 # basic UI components
 ui_main = Ui_Main()
 
-# set UI
-ui_main.setupUi()
-
 # register chapter names
 for chapter_num, chapter_name in chapters:
     ui_main.comboBox.addItem("%s. %s" % (chapter_num, chapter_name))
