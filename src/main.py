@@ -35,6 +35,7 @@ if foo != bar:
 # basic UI components
 ui_main = Ui_Main()
 ui_config = Ui_Config()
+ui_Quiz = Ui_Quiz()
 
 # set UI
 main_window = QWidget()

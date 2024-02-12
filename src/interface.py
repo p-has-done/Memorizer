@@ -44,6 +44,9 @@ from PySide6.QtWidgets import (
     QFormLayout,
     QCheckBox,
     QMessageBox,
+    QFrame,
+    QProgressBar,
+    QLineEdit,
 )
 
 
@@ -151,6 +154,70 @@ class Ui_Config(object):
         Form.setWindowTitle("Config")
         self.label.setText("제한시간 (기본 10초)")
         self.label_2.setText("영문명 대소문자 무시")
+
+    # retranslateUi
+
+
+class Ui_Quiz(object):
+    def setupUi(self, Form):
+        if not Form.objectName():
+            Form.setObjectName("Form")
+        Form.resize(640, 480)
+        Form.setMinimumSize(QSize(640, 480))
+        self.verticalLayout = QVBoxLayout(Form)
+        self.verticalLayout.setObjectName("verticalLayout")
+        self.label_quiz = QLabel(Form)
+        self.label_quiz.setObjectName("label_quiz")
+
+        self.verticalLayout.addWidget(self.label_quiz)
+
+        self.label_image = QLabel(Form)
+        self.label_image.setObjectName("label_image")
+
+        self.verticalLayout.addWidget(self.label_image)
+
+        self.line = QFrame(Form)
+        self.line.setObjectName("line")
+        self.line.setFrameShape(QFrame.HLine)
+        self.line.setFrameShadow(QFrame.Sunken)
+
+        self.verticalLayout.addWidget(self.line)
+
+        self.progressBar = QProgressBar(Form)
+        self.progressBar.setObjectName("progressBar")
+        self.progressBar.setValue(24)
+
+        self.verticalLayout.addWidget(self.progressBar)
+
+        self.lineEdit_kor = QLineEdit(Form)
+        self.lineEdit_kor.setObjectName("lineEdit_kor")
+
+        self.verticalLayout.addWidget(self.lineEdit_kor)
+
+        self.lineEdit_eng = QLineEdit(Form)
+        self.lineEdit_eng.setObjectName("lineEdit_eng")
+
+        self.verticalLayout.addWidget(self.lineEdit_eng)
+
+        self.pushButton = QPushButton(Form)
+        self.pushButton.setObjectName("pushButton")
+        self.pushButton.setShortcut("Return")
+
+        self.verticalLayout.addWidget(self.pushButton)
+
+        self.retranslateUi(Form)
+
+        QMetaObject.connectSlotsByName(Form)
+
+    # setupUi
+
+    def retranslateUi(self, Form):
+        Form.setWindowTitle("Quiz")
+        self.label_quiz.setText("사진")
+        self.label_image.setText("문제")
+        self.lineEdit_kor.setPlaceholderText("국문명")
+        self.lineEdit_eng.setPlaceholderText("영문명")
+        self.pushButton.setText("확인(Enter)")
 
     # retranslateUi
 
