@@ -55,6 +55,7 @@ class Ui_Main(QWidget):
     def __init__(self):
         super().__init__()
         self.config_window = Ui_Config(self)
+        self.quiz_window = Ui_Quiz()
         self.time_limit = 10
         self.ignore_case = True
         self.setupUi()
@@ -120,7 +121,7 @@ class Ui_Main(QWidget):
 
     @Slot()
     def on_startBtn_clicked(self):
-        print("on_startBtn_clicked")
+        self.quiz_window.show()
 
 
 class Ui_Config(QWidget):
@@ -178,6 +179,10 @@ class Ui_Config(QWidget):
 
 
 class Ui_Quiz(QWidget):
+    def __init__(self):
+        super().__init__()
+        self.setupUi()
+
     def setupUi(self):
         self.resize(640, 480)
         self.setMinimumSize(QSize(640, 480))
