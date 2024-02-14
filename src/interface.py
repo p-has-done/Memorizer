@@ -213,7 +213,7 @@ class Ui_Quiz(QWidget):
 
         QMetaObject.connectSlotsByName(self)
 
-    def setTexts(self, Form):
+    def setTexts(self):
         self.setWindowTitle("Quiz")
         self.label_quiz.setText("사진")
         self.label_image.setText("문제")
