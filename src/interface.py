@@ -131,7 +131,7 @@ class Ui_Config(QWidget):
         self.setupUi()
 
     def setupUi(self):
-        self.resize(256, 58)
+        self.resize(256, 90)
         self.setMinimumSize(QSize(256, 0))
         self.formLayout = QFormLayout(self)
         self.formLayout.setObjectName("formLayout")
@@ -163,6 +163,19 @@ class Ui_Config(QWidget):
 
         self.formLayout.setWidget(1, QFormLayout.FieldRole, self.checkBox)
 
+        self.label_3 = QLabel(self)
+        self.label_3.setObjectName("label_3")
+
+        self.formLayout.setWidget(2, QFormLayout.LabelRole, self.label_3)
+
+        self.spinBox = QSpinBox(self)
+        self.spinBox.setObjectName("spinBox")
+        self.spinBox.setMinimum(1)
+        self.spinBox.setMaximum(30)
+        self.spinBox.setValue(5)
+
+        self.formLayout.setWidget(2, QFormLayout.FieldRole, self.spinBox)
+
         self.setTexts()
 
         QMetaObject.connectSlotsByName(self)
@@ -171,6 +184,7 @@ class Ui_Config(QWidget):
         self.setWindowTitle("Config")
         self.label.setText("제한시간 (기본 10초)")
         self.label_2.setText("영문명 대소문자 무시")
+        self.label_3.setText("문제 수")
 
     def closeEvent(self, event):
         self.main_widget.time_limit = self.horizontalSlider.value()
