@@ -33,7 +33,7 @@ if foo != bar:
     )
 
 # basic UI components
-ui_main = Ui_Main()
+ui_main = Ui_Main(answer_sheet)
 
 # register chapter names
 for chapter_num, chapter_name in chapters:

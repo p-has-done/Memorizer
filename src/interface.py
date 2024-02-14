@@ -48,16 +48,18 @@ from PySide6.QtWidgets import (
     QFrame,
     QProgressBar,
     QLineEdit,
+    QSpinBox,
 )
 
 
 class Ui_Main(QWidget):
-    def __init__(self):
+    def __init__(self, answer_sheet):
         super().__init__()
         self.config_window = Ui_Config(self)
-        self.quiz_window = Ui_Quiz()
+        self.quiz_window = Ui_Quiz(answer_sheet)
         self.time_limit = 10
         self.ignore_case = True
+        self.problem_num = 5
         self.setupUi()
 
     def setupUi(self):
@@ -189,12 +191,14 @@ class Ui_Config(QWidget):
     def closeEvent(self, event):
         self.main_widget.time_limit = self.horizontalSlider.value()
         self.main_widget.ignore_case = self.checkBox.isChecked()
+        self.main_widget.problem_num = self.spinBox.value()
         self.main_widget.setConfigBtnText()
 
 
 class Ui_Quiz(QWidget):
-    def __init__(self):
+    def __init__(self, answer_sheet):
         super().__init__()
+        self.answer_sheet = answer_sheet
         self.setupUi()
 
     def setupUi(self):
@@ -252,6 +256,18 @@ class Ui_Quiz(QWidget):
         self.lineEdit_kor.setPlaceholderText("국문명")
         self.lineEdit_eng.setPlaceholderText("영문명")
         self.pushButton.setText("확인(Enter)")
+
+    def clear(self):
+        self.lineEdit_kor.setText("")
+        self.lineEdit_eng.setText("")
+
+    def moveFocus(self):
+        self.lineEdit_kor.setFocus()
+
+    @Slot()
+    def on_pushButton_clicked(self):
+        self.clear()
+        self.moveFocus()
 
 
 def warning(msg):
