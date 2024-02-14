@@ -54,8 +54,10 @@ from PySide6.QtWidgets import (
 class Ui_Main(QWidget):
     def __init__(self):
         super().__init__()
+        self.config_window = Ui_Config(self)
+        self.time_limit = 10
+        self.ignore_case = True
         self.setupUi()
-        self.configWindow = Ui_Config()
 
     def setupUi(self):
         self.resize(368, 201)
@@ -102,14 +104,19 @@ class Ui_Main(QWidget):
         )
         self.comboBox.setItemText(0, "--- 선택 ---")
 
-        self.configBtn.setText(
-            "환경설정(제한시간 10초, 대소문자 무시)",
-        )
+        self.setConfigBtnText()
         self.startBtn.setText("시작(Enter)")
+
+    def setConfigBtnText(self):
+        self.configBtn.setText(
+            "환경설정(제한시간 %d초, 대소문자 무시%s)"
+            % (self.time_limit, "" if self.ignore_case else "하지 않음")
+        )
+        self.repaint()
 
     @Slot()
     def on_configBtn_clicked(self):
-        self.configWindow.show()
+        self.config_window.show()
 
     @Slot()
     def on_startBtn_clicked(self):
@@ -117,8 +124,9 @@ class Ui_Main(QWidget):
 
 
 class Ui_Config(QWidget):
-    def __init__(self):
+    def __init__(self, main_widget):
         super().__init__()
+        self.main_widget = main_widget
         self.setupUi()
 
     def setupUi(self):
@@ -162,6 +170,11 @@ class Ui_Config(QWidget):
         self.setWindowTitle("Config")
         self.label.setText("제한시간 (기본 10초)")
         self.label_2.setText("영문명 대소문자 무시")
+
+    def closeEvent(self, event):
+        self.main_widget.time_limit = self.horizontalSlider.value()
+        self.main_widget.ignore_case = self.checkBox.isChecked()
+        self.main_widget.setConfigBtnText()
 
 
 class Ui_Quiz(QWidget):

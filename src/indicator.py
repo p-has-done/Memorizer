@@ -11,8 +11,11 @@ class Answer:
     def cmpKor(self, other):
         return self.kor.strip() == other.strip()
 
-    def cmpEng(self, other):
-        return self.eng.strip().lower() == other.strip().lower()
+    def cmpEng(self, other, ignore_case):
+        if ignore_case:
+            return self.eng.strip().lower() == other.strip().lower()
+        else:
+            return self.eng.strip() == other.strip()
 
     def __repr__(self):
         return "[정답: 국문명 %s, 영문명 %s]" % (self.kor, self.eng)
