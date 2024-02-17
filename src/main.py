@@ -108,7 +108,12 @@ class Ui_Main(QWidget):
     def on_startBtn_clicked(self):
         if self.quiz_window.isHidden():
             self.quiz_window.show()
-            self.quiz_window.prepare()
+            self.quiz_window.prepare(
+                self.comboBox.currentText(),
+                self.time_limit,
+                self.ignore_case,
+                self.problem_num,
+            )
         self.config_window.activateWindow()
 
     def keyPressEvent(self, event):
@@ -275,8 +280,9 @@ class Ui_Quiz(QWidget):
     def moveFocus(self):
         self.lineEdit_kor.setFocus()
 
-    def prepare(self):
-        raise NotImplementedError("Quiz is not implemented yet.")
+    def prepare(self, chapter_name, time_limit, ignore_case, problem_num):
+        self.problem_set = pickProblems(self.answer_sheet, chapter_name, problem_num)
+        print(self.problem_set)
 
     @Slot()
     def on_pushButton_clicked(self):

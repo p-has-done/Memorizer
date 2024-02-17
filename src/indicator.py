@@ -1,3 +1,6 @@
+from random import sample
+
+
 def readAnswerFile():
     with open("resources/answer.csv", "r", encoding="UTF-8") as file:
         return file.readlines()
@@ -57,3 +60,11 @@ def cut_chapters(image_names):
         chapters[i][0] = str(chapter_num)
 
     return (chapters, invalid_chapters)
+
+
+def pickProblems(answer_sheet, chapter_name, problem_num):
+    image_ID = chapter_name.split(".")[0]
+    all_problems = answer_sheet[image_ID]
+    if len(all_problems) < problem_num:
+        problem_num = len(all_problems)
+    return sample(list(all_problems.items()), problem_num)
