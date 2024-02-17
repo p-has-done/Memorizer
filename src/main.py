@@ -312,7 +312,7 @@ except ValueError:
 
 
 # prepare chapter names
-chapters, invalid_chapters = cut_chapters(image_names)
+chapters, invalid_chapters = cutChapters(image_names)
 if len(invalid_chapters) > 0:
     warning(
         "다음은 유효하지 않은 사진 이름 형식입니다.\n- "

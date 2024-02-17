@@ -44,7 +44,7 @@ def getAnswerSheet():
     return parse(readAnswerFile())
 
 
-def cut_chapters(image_names):
+def cutChapters(image_names):
     chapters = list()
     invalid_chapters = list()
 
