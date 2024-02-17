@@ -110,9 +110,20 @@ class Ui_Main(QWidget):
             self.quiz_window.show()
             self.quiz_window.prepare()
         self.config_window.activateWindow()
-    
+
     def closeEvent(self, event):
-        self.config_window.close()
+        reply = QMessageBox.question(
+            self,
+            "Quit",
+            "정말 종료하시겠습니까?",
+            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
+            QMessageBox.StandardButton.Yes,
+        )
+        if reply == QMessageBox.StandardButton.Yes:
+            self.config_window.close()
+            event.accept()
+        else:
+            event.ignore()
 
 
 class Ui_Config(QWidget):
