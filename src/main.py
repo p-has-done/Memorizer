@@ -106,6 +106,10 @@ class Ui_Main(QWidget):
 
     @Slot()
     def on_startBtn_clicked(self):
+        if self.comboBox.currentIndex() == 0:
+            self.comboBox.setFocus()
+            return
+    
         if self.quiz_window.isHidden():
             self.quiz_window.show()
             self.quiz_window.prepare(
