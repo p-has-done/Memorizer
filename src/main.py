@@ -242,6 +242,7 @@ class Ui_Quiz(QWidget):
 
         self.progressBar = QProgressBar(self)
         self.progressBar.setObjectName("progressBar")
+        self.progressBar.setTextVisible(False)
         self.progressBar.setValue(24)
 
         self.verticalLayout.addWidget(self.progressBar)
