@@ -29,7 +29,7 @@ def parse(lines):
     ret = dict()
 
     for line in lines:
-        imageID, indiID, kor, eng = line.strip().split(",")
+        imageID, indiID, kor, eng = map(str.strip, line.split(","))
         if imageID not in ret:
             ret[imageID] = dict()
         ret[imageID][indiID] = Answer(kor, eng)
