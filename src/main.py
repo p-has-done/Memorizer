@@ -111,6 +111,10 @@ class Ui_Main(QWidget):
             self.quiz_window.prepare()
         self.config_window.activateWindow()
 
+    def keyPressEvent(self, event):
+        if event.key() == Qt.Key.Key_Escape:
+            self.close()
+
     def closeEvent(self, event):
         reply = QMessageBox.question(
             self,
