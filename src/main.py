@@ -90,8 +90,12 @@ class Ui_Main(QWidget):
 
     def setConfigBtnText(self):
         self.configBtn.setText(
-            "환경설정(제한시간 %d초, 대소문자 무시%s)"
-            % (self.time_limit, "" if self.ignore_case else "하지 않음")
+            "환경설정(제한시간 %d초, 대소문자 무시%s, %d문제)"
+            % (
+                self.time_limit,
+                "" if self.ignore_case else "하지 않음",
+                self.problem_num,
+            )
         )
         self.repaint()
 
