@@ -174,6 +174,10 @@ class Ui_Config(QWidget):
         self.label_2.setText("영문명 대소문자 무시")
         self.label_3.setText("문제 수")
 
+    def keyPressEvent(self, event):
+        if event.key() == Qt.Key.Key_Escape:
+            self.close()
+
     def closeEvent(self, event):
         self.main_widget.time_limit = self.horizontalSlider.value()
         self.main_widget.ignore_case = self.checkBox.isChecked()
