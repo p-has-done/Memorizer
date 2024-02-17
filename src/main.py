@@ -102,7 +102,9 @@ class Ui_Main(QWidget):
 
     @Slot()
     def on_startBtn_clicked(self):
-        self.quiz_window.show()
+        if self.quiz_window.isHidden():
+            self.quiz_window.show()
+            self.quiz_window.prepare()
         self.config_window.activateWindow()
 
 
@@ -246,6 +248,9 @@ class Ui_Quiz(QWidget):
 
     def moveFocus(self):
         self.lineEdit_kor.setFocus()
+
+    def prepare(self):
+        raise NotImplementedError("Quiz is not implemented yet.")
 
     @Slot()
     def on_pushButton_clicked(self):
