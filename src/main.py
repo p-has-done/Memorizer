@@ -282,6 +282,7 @@ class Ui_Quiz(QWidget):
         pass
 
     def clear(self):
+        self.progressBar.setValue(0)
         self.lineEdit_kor.setText("")
         self.lineEdit_eng.setText("")
 
@@ -290,6 +291,8 @@ class Ui_Quiz(QWidget):
 
     def prepare(self, chapter_name, time_limit, ignore_case, problem_num):
         self.problem_set = pickProblems(self.answer_sheet, chapter_name, problem_num)
+        self.progressBar.setMaximum = time_limit - 1
+        self.clear()
         print(self.problem_set)
 
     @Slot()
