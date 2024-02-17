@@ -62,11 +62,11 @@ class Ui_Main(QWidget):
 
         self.startBtn = QPushButton(self)
         self.startBtn.setObjectName("startBtn")
-        self.startBtn.setShortcut("Return")
 
         self.verticalLayout.addWidget(self.startBtn)
 
         self.setTexts()
+        self.setShortcuts()
 
         QMetaObject.connectSlotsByName(self)
 
@@ -85,6 +85,9 @@ class Ui_Main(QWidget):
         self.setConfigBtnText()
         self.startBtn.setText("시작(Enter)")
 
+    def setShortcuts(self):
+        self.startBtn.setShortcut("Return")
+
     def setConfigBtnText(self):
         self.configBtn.setText(
             "환경설정(제한시간 %d초, 대소문자 무시%s)"
@@ -95,10 +98,12 @@ class Ui_Main(QWidget):
     @Slot()
     def on_configBtn_clicked(self):
         self.config_window.show()
+        self.config_window.activateWindow()
 
     @Slot()
     def on_startBtn_clicked(self):
         self.quiz_window.show()
+        self.config_window.activateWindow()
 
 
 class Ui_Config(QWidget):
@@ -216,11 +221,11 @@ class Ui_Quiz(QWidget):
 
         self.pushButton = QPushButton(self)
         self.pushButton.setObjectName("pushButton")
-        self.pushButton.setShortcut("Return")
 
         self.verticalLayout.addWidget(self.pushButton)
 
         self.setTexts()
+        self.setShortcuts()
 
         QMetaObject.connectSlotsByName(self)
 
@@ -231,6 +236,9 @@ class Ui_Quiz(QWidget):
         self.lineEdit_kor.setPlaceholderText("국문명")
         self.lineEdit_eng.setPlaceholderText("영문명")
         self.pushButton.setText("확인(Enter)")
+
+    def setShortcuts(self):
+        self.pushButton.setShortcut("Return")
 
     def clear(self):
         self.lineEdit_kor.setText("")
