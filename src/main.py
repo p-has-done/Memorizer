@@ -110,6 +110,9 @@ class Ui_Main(QWidget):
             self.quiz_window.show()
             self.quiz_window.prepare()
         self.config_window.activateWindow()
+    
+    def closeEvent(self, event):
+        self.config_window.close()
 
 
 class Ui_Config(QWidget):
