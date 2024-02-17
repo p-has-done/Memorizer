@@ -109,7 +109,7 @@ class Ui_Main(QWidget):
         if self.comboBox.currentIndex() == 0:
             self.comboBox.setFocus()
             return
-    
+
         if self.quiz_window.isHidden():
             self.quiz_window.show()
             self.quiz_window.prepare(
@@ -278,6 +278,9 @@ class Ui_Quiz(QWidget):
     def setShortcuts(self):
         self.pushButton.setShortcut("Return")
 
+    def submitAnswer(self):
+        pass
+
     def clear(self):
         self.lineEdit_kor.setText("")
         self.lineEdit_eng.setText("")
@@ -291,6 +294,7 @@ class Ui_Quiz(QWidget):
 
     @Slot()
     def on_pushButton_clicked(self):
+        self.submitAnswer()
         self.clear()
         self.moveFocus()
 
