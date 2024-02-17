@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from indicator import *
+from Indicator import *
 from os import listdir
 
 from PySide6.QtCore import (

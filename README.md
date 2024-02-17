@@ -10,7 +10,7 @@
 1. 이곳에서 다음 명령어를 실행하세요.
 
 ```
-pyinstaller -w -F src/main.py
+pyinstaller -w -F src/Main.py
 ```
 
 ## Usage
