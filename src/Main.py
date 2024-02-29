@@ -3,12 +3,7 @@
 from Indicator import *
 from os import listdir
 
-from PySide6.QtCore import (
-    QMetaObject,
-    QSize,
-    Qt,
-    Slot,
-)
+from PySide6.QtCore import QMetaObject, QSize, Qt, QTimer, Slot
 from PySide6.QtWidgets import (
     QApplication,
     QComboBox,
@@ -217,6 +212,12 @@ class Ui_Quiz(QWidget):
         super().__init__()
         self.answer_sheet = answer_sheet
         self.setupUi()
+        self.timer = QTimer()
+
+        # set timer
+        self.timer.setInterval(1000)
+        self.timer.timeout.connect(self.updateTimer)
+        self.timer.start()
 
     def setupUi(self):
         self.resize(640, 480)
@@ -243,7 +244,7 @@ class Ui_Quiz(QWidget):
         self.progressBar = QProgressBar(self)
         self.progressBar.setObjectName("progressBar")
         self.progressBar.setTextVisible(False)
-        self.progressBar.setValue(24)
+        self.progressBar.setMinimum(0)
 
         self.verticalLayout.addWidget(self.progressBar)
 
@@ -282,16 +283,17 @@ class Ui_Quiz(QWidget):
         pass
 
     def clear(self):
-        self.progressBar.setValue(0)
         self.lineEdit_kor.setText("")
         self.lineEdit_eng.setText("")
+        self.progressBar.setValue(0)
+        self.timer.start()
 
     def moveFocus(self):
         self.lineEdit_kor.setFocus()
 
     def prepare(self, chapter_name, time_limit, ignore_case, problem_num):
         self.problem_set = pickProblems(self.answer_sheet, chapter_name, problem_num)
-        self.progressBar.setMaximum = time_limit - 1
+        self.progressBar.setMaximum(time_limit - 1)
         self.clear()
         print(self.problem_set)
 
@@ -300,6 +302,13 @@ class Ui_Quiz(QWidget):
         self.submitAnswer()
         self.clear()
         self.moveFocus()
+
+    def updateTimer(self):
+        curr_value = self.progressBar.value()
+        if curr_value == self.progressBar.maximum():
+            self.pushButton.click()
+        else:
+            self.progressBar.setValue(curr_value + 1)
 
 
 def warning(msg):
