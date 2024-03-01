@@ -279,8 +279,18 @@ class Ui_Quiz(QWidget):
     def setShortcuts(self):
         self.pushButton.setShortcut("Return")
 
-    def submitAnswer(self):
-        pass
+    def submit(self):
+        current_answer = self.problem_list[self.problem_idx][1]
+        response_kor = self.lineEdit_kor.text()
+        response_eng = self.lineEdit_eng.text()
+        self.problem_idx += 1
+        if not (
+            current_answer.cmpKor(response_kor)
+            and current_answer.cmpEng(response_eng, self.ignore_case)
+        ):
+            self.incorrect_responses.append(
+                (current_answer, response_kor, response_eng)
+            )
 
     def clear(self):
         self.lineEdit_kor.setText("")
@@ -288,25 +298,33 @@ class Ui_Quiz(QWidget):
         self.progressBar.setValue(0)
         self.timer.start()
 
-    def moveFocus(self):
-        self.lineEdit_kor.setFocus()
-
     def prepare(self, chapter_name, time_limit, ignore_case, problem_num):
-        self.problem_set = pickProblems(self.answer_sheet, chapter_name, problem_num)
+        self.problem_list = pickProblems(self.answer_sheet, chapter_name, problem_num)
+        self.wrong_responses = []
+        self.ignore_case = ignore_case
+        self.problem_idx = 0
         self.progressBar.setMaximum(time_limit - 1)
         self.clear()
-        print(self.problem_set)
+
+    def completeResponse(self):
+        self.submit()
+        self.clear()
+        self.lineEdit_kor.setFocus()
 
     @Slot()
     def on_pushButton_clicked(self):
-        self.submitAnswer()
-        self.clear()
-        self.moveFocus()
+        if self.lineEdit_kor.text() == "":
+            self.lineEdit_kor.setFocus()
+        elif self.lineEdit_eng.text() == "":
+            self.lineEdit_eng.setFocus()
+        else:
+            self.completeResponse()
 
     def updateTimer(self):
         curr_value = self.progressBar.value()
         if curr_value == self.progressBar.maximum():
-            self.pushButton.click()
+            # timeout
+            self.completeResponse()
         else:
             self.progressBar.setValue(curr_value + 1)
 
