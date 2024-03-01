@@ -368,12 +368,16 @@ if foo != bar:
         % (", ".join(sorted(foo)), ", ".join(sorted(bar)))
     )
 
+# leave matched chapters only
+chapters = list(filter(lambda ch: ch[0] in bar, chapters))
+
 # basic UI components
 ui_main = Ui_Main(answer_sheet)
 
 # register chapter names
 for chapter_num, chapter_name in chapters:
-    ui_main.comboBox.addItem("%s. %s" % (chapter_num, chapter_name))
+    # re-build image names from chapter names
+    ui_main.comboBox.addItem("%s.%s" % (chapter_num, chapter_name))
 
 # start application
 ui_main.show()
