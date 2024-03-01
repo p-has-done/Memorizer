@@ -334,6 +334,10 @@ class Ui_Quiz(QWidget):
             self.lineEdit_eng.setFocus()
         else:
             self.completeResponse()
+    
+    def closeEvent(self, event):
+        self.timer.stop()
+        event.accept()
 
     def updateTimer(self):
         curr_value = self.progressBar.value()
