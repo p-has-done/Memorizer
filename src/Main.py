@@ -286,12 +286,17 @@ class Ui_Quiz(QWidget):
         current_answer = self.problem_list[self.problem_idx][1]
         response_kor = self.lineEdit_kor.text()
         response_eng = self.lineEdit_eng.text()
-        self.problem_idx += 1
+
         if not (
             current_answer.cmpKor(response_kor)
             and current_answer.cmpEng(response_eng, self.ignore_case)
         ):
             self.wrong_responses.append((current_answer, response_kor, response_eng))
+
+        self.problem_idx += 1
+        if self.problem_idx == len(self.problem_list):
+            # TODO
+            pass
 
     def clear(self):
         self.lineEdit_kor.setText("")
