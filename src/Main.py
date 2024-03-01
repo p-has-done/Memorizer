@@ -4,6 +4,7 @@ from Indicator import *
 from os import listdir
 
 from PySide6.QtCore import QMetaObject, QSize, Qt, QTimer, Slot
+from PySide6.QtGui import QPixmap
 from PySide6.QtWidgets import (
     QApplication,
     QComboBox,
@@ -224,15 +225,17 @@ class Ui_Quiz(QWidget):
         self.setMinimumSize(QSize(640, 480))
         self.verticalLayout = QVBoxLayout(self)
         self.verticalLayout.setObjectName("verticalLayout")
-        self.label_quiz = QLabel(self)
-        self.label_quiz.setObjectName("label_quiz")
-
-        self.verticalLayout.addWidget(self.label_quiz)
-
         self.label_image = QLabel(self)
         self.label_image.setObjectName("label_image")
+        self.label_image.setAlignment(Qt.AlignCenter)
 
         self.verticalLayout.addWidget(self.label_image)
+
+        self.label_quiz = QLabel(self)
+        self.label_quiz.setObjectName("label_quiz")
+        self.label_quiz.setAlignment(Qt.AlignCenter)
+
+        self.verticalLayout.addWidget(self.label_quiz)
 
         self.line = QFrame(self)
         self.line.setObjectName("line")
@@ -270,8 +273,8 @@ class Ui_Quiz(QWidget):
 
     def setTexts(self):
         self.setWindowTitle("Quiz")
-        self.label_quiz.setText("사진")
-        self.label_image.setText("문제")
+        self.label_image.setText("사진")
+        self.label_quiz.setText("문제")
         self.lineEdit_kor.setPlaceholderText("국문명")
         self.lineEdit_eng.setPlaceholderText("영문명")
         self.pushButton.setText("확인(Enter)")
@@ -288,9 +291,7 @@ class Ui_Quiz(QWidget):
             current_answer.cmpKor(response_kor)
             and current_answer.cmpEng(response_eng, self.ignore_case)
         ):
-            self.incorrect_responses.append(
-                (current_answer, response_kor, response_eng)
-            )
+            self.wrong_responses.append((current_answer, response_kor, response_eng))
 
     def clear(self):
         self.lineEdit_kor.setText("")
@@ -298,12 +299,21 @@ class Ui_Quiz(QWidget):
         self.progressBar.setValue(0)
         self.timer.start()
 
-    def prepare(self, chapter_name, time_limit, ignore_case, problem_num):
-        self.problem_list = pickProblems(self.answer_sheet, chapter_name, problem_num)
+    def prepare(self, image_name, time_limit, ignore_case, problem_num):
+        self.problem_list = pickProblems(self.answer_sheet, image_name, problem_num)
         self.wrong_responses = []
         self.ignore_case = ignore_case
         self.problem_idx = 0
+
+        # set problem image (pixmap)
+        pixmap = QPixmap()
+        pixmap.load("resources/images/" + image_name)
+        pixmap = pixmap.scaled(self.label_image.size(), aspectMode=Qt.KeepAspectRatio)
+        self.label_image.setPixmap(pixmap)
+
+        # set other UI components
         self.progressBar.setMaximum(time_limit - 1)
+        self.label_quiz.setText("asdf")
         self.clear()
 
     def completeResponse(self):
