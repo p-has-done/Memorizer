@@ -23,6 +23,20 @@ from PySide6.QtWidgets import (
     QSizePolicy,
 )
 
+"""
+Comments/memo
+
+- This code is not a good example of OOP and PySide6.
+- Methods ordering:
+  1. __init__
+  2. setupUi
+  3. setTexts
+  4. setShortcuts
+  5. @Slot annotated methods (in lexicographic order)
+  6. events (in lexicographic order)
+  7. others (in lexicographic order)
+"""
+
 
 class Home(QWidget):
     def __init__(self, answer_sheet):
@@ -85,17 +99,6 @@ class Home(QWidget):
     def setShortcuts(self):
         self.startBtn.setShortcut("Return")
 
-    def setConfigBtnText(self):
-        self.configBtn.setText(
-            "환경설정(제한시간 %d초, 대소문자 무시%s, %d문제)"
-            % (
-                self.time_limit,
-                "" if self.ignore_case else "하지 않음",
-                self.problem_num,
-            )
-        )
-        self.repaint()
-
     @Slot()
     def on_configBtn_clicked(self):
         self.config_window.show()
@@ -117,10 +120,6 @@ class Home(QWidget):
             )
         self.config_window.activateWindow()
 
-    def keyPressEvent(self, event):
-        if event.key() == Qt.Key.Key_Escape:
-            self.close()
-
     def closeEvent(self, event):
         reply = QMessageBox.question(
             self,
@@ -134,6 +133,21 @@ class Home(QWidget):
             event.accept()
         else:
             event.ignore()
+
+    def keyPressEvent(self, event):
+        if event.key() == Qt.Key.Key_Escape:
+            self.close()
+
+    def setConfigBtnText(self):
+        self.configBtn.setText(
+            "환경설정(제한시간 %d초, 대소문자 무시%s, %d문제)"
+            % (
+                self.time_limit,
+                "" if self.ignore_case else "하지 않음",
+                self.problem_num,
+            )
+        )
+        self.repaint()
 
 
 class Config(QWidget):
@@ -198,15 +212,15 @@ class Config(QWidget):
         self.label_2.setText("영문명 대소문자 무시")
         self.label_3.setText("문제 수")
 
-    def keyPressEvent(self, event):
-        if event.key() == Qt.Key.Key_Escape:
-            self.close()
-
     def closeEvent(self, event):
         self.main_widget.time_limit = self.horizontalSlider.value()
         self.main_widget.ignore_case = self.checkBox.isChecked()
         self.main_widget.problem_num = self.spinBox.value()
         self.main_widget.setConfigBtnText()
+
+    def keyPressEvent(self, event):
+        if event.key() == Qt.Key.Key_Escape:
+            self.close()
 
 
 class Quiz(QWidget):
@@ -300,6 +314,30 @@ class Quiz(QWidget):
     def setShortcuts(self):
         self.pushButton.setShortcut("Return")
 
+    @Slot()
+    def on_pushButton_clicked(self):
+        if self.lineEdit_kor.text() == "":
+            self.lineEdit_kor.setFocus()
+        elif self.lineEdit_eng.text() == "":
+            self.lineEdit_eng.setFocus()
+        else:
+            self.completeResponse()
+
+    def closeEvent(self, event):
+        self.timer.stop()
+        event.accept()
+
+    def clear(self):
+        self.lineEdit_kor.setText("")
+        self.lineEdit_eng.setText("")
+        self.progressBar.setValue(0)
+        self.timer.start()
+
+    def completeResponse(self):
+        self.submit()
+        self.clear()
+        self.lineEdit_kor.setFocus()
+
     def submit(self):
         current_answer = self.problem_list[self.problem_idx][1]
         response_kor = self.lineEdit_kor.text()
@@ -315,12 +353,6 @@ class Quiz(QWidget):
         if self.problem_idx == len(self.problem_list):
             # TODO
             pass
-
-    def clear(self):
-        self.lineEdit_kor.setText("")
-        self.lineEdit_eng.setText("")
-        self.progressBar.setValue(0)
-        self.timer.start()
 
     def prepare(self, image_name, time_limit, ignore_case, problem_num):
         self.problem_list = pickProblems(self.answer_sheet, image_name, problem_num)
@@ -338,24 +370,6 @@ class Quiz(QWidget):
         self.progressBar.setMaximum(time_limit - 1)
         self.label_quiz.setText("asdf")
         self.clear()
-
-    def completeResponse(self):
-        self.submit()
-        self.clear()
-        self.lineEdit_kor.setFocus()
-
-    @Slot()
-    def on_pushButton_clicked(self):
-        if self.lineEdit_kor.text() == "":
-            self.lineEdit_kor.setFocus()
-        elif self.lineEdit_eng.text() == "":
-            self.lineEdit_eng.setFocus()
-        else:
-            self.completeResponse()
-
-    def closeEvent(self, event):
-        self.timer.stop()
-        event.accept()
 
     def updateTimer(self):
         curr_value = self.progressBar.value()
