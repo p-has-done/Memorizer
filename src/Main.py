@@ -233,7 +233,6 @@ class Quiz(QWidget):
         # set timer
         self.timer.setInterval(1000)
         self.timer.timeout.connect(self.updateTimer)
-        self.timer.start()
 
     def setupUi(self):
         self.resize(960, 720)
@@ -370,6 +369,8 @@ class Quiz(QWidget):
         self.progressBar.setMaximum(time_limit - 1)
         self.label_quiz.setText("asdf")
         self.clear()
+
+        self.timer.start()
 
     def updateTimer(self):
         curr_value = self.progressBar.value()
