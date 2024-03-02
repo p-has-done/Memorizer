@@ -39,10 +39,12 @@ Comments/memo
 
 
 class Home(QWidget):
-    def __init__(self, answer_sheet):
+    def __init__(self, answer_sheet, chapters):
         super().__init__()
         self.config_window = Config(self)
         self.quiz_window = Quiz(answer_sheet)
+
+        self.chapters = chapters
         self.time_limit = 20
         self.ignore_case = True
         self.problem_num = 5
@@ -93,6 +95,10 @@ class Home(QWidget):
         )
         self.comboBox.setItemText(0, "--- 선택 ---")
 
+        # register chapter names
+        for ch in self.chapters:
+            self.comboBox.addItem("%d. %s" % (ch.chapter_id, ch.chapter_name))
+
         self.setConfigBtnText()
         self.startBtn.setText("시작(Enter)")
 
@@ -112,8 +118,10 @@ class Home(QWidget):
 
         if self.quiz_window.isHidden():
             self.quiz_window.show()
+
+            chapter = self.chapters[self.comboBox.currentIndex() - 1]
             self.quiz_window.prepare(
-                self.comboBox.currentText(),
+                chapter,
                 self.time_limit,
                 self.ignore_case,
                 self.problem_num,
@@ -353,15 +361,17 @@ class Quiz(QWidget):
             # TODO
             pass
 
-    def prepare(self, image_name, time_limit, ignore_case, problem_num):
-        self.problem_list = pickProblems(self.answer_sheet, image_name, problem_num)
+    def prepare(self, chapter, time_limit, ignore_case, problem_num):
+        self.problem_list = pickProblems(
+            self.answer_sheet, chapter.chapter_id, problem_num
+        )
         self.wrong_responses = []
         self.ignore_case = ignore_case
         self.problem_idx = 0
 
         # set problem image (pixmap)
         pixmap = QPixmap()
-        pixmap.load("resources/images/" + image_name)
+        pixmap.load("resources/images/" + chapter.image_name)
         pixmap = pixmap.scaled(self.label_image.size(), aspectMode=Qt.KeepAspectRatio)
         self.label_image.setPixmap(pixmap)
 
@@ -393,44 +403,44 @@ def critical(msg):
 # THIS MUST BE HERE
 app = QApplication([])
 
-# basic variables
-image_names = listdir("resources/images/")
+# answer sheet
 answer_sheet = None
 try:
     answer_sheet = getAnswerSheet()
 except ValueError:
     critical("정답지(answer.csv)의 형식이 잘못되었습니다.\n")
 
+# chapters
+chapters = list()
+invalids = list()
+image_names = listdir("resources/images/")
+for image_name in image_names:
+    try:
+        chapters.append(imageName2chapter(image_name))
+    except ValueError:
+        invalids.append(image_name)
+if len(invalids) > 0:
+    warning("다음은 유효하지 않은 사진 이름 형식입니다.\n- " + ("\n- ".join(invalids)))
 
-# prepare chapter names
-chapters, invalid_chapters = cutChapters(image_names)
-if len(invalid_chapters) > 0:
-    warning(
-        "다음은 유효하지 않은 사진 이름 형식입니다.\n- "
-        + ("\n- ".join(invalid_chapters))
-    )
+# sort chapters by id
+chapters.sort(key=lambda ch: ch.chapter_id)
 
 # check whether chapters and images are matched
-foo = set(map(lambda x: x[0], chapters))
+foo = set(map(lambda ch: ch.chapter_id, chapters))
 bar = set(answer_sheet.keys())
 if foo != bar:
     warning(
         "사진과 정답지(answer.csv)에 나열된 챕터의 구성이 다릅니다.\
         \n다음을 확인해주세요.\n사진: %s\n정답지: %s"
-        % (", ".join(sorted(foo)), ", ".join(sorted(bar)))
+        % (", ".join(map(str, sorted(foo))), ", ".join(map(str, sorted(bar))))
     )
 
 # leave matched chapters only
-chapters = list(filter(lambda ch: ch[0] in bar, chapters))
+chapters = list(filter(lambda ch: ch.chapter_id in bar, chapters))
 
 # basic UI components
-ui_main = Home(answer_sheet)
-
-# register chapter names
-for chapter_num, chapter_name in chapters:
-    # re-build image names from chapter names
-    ui_main.comboBox.addItem("%s.%s" % (chapter_num, chapter_name))
+home = Home(answer_sheet, chapters)
 
 # start application
-ui_main.show()
+home.show()
 app.exec()

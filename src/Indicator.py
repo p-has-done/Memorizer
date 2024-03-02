@@ -1,20 +1,16 @@
 from random import sample
-
-
-def readAnswerFile():
-    with open("resources/answer.csv", "r", encoding="UTF-8") as file:
-        return file.readlines()
+from typing import Tuple, List, Dict
 
 
 class Answer:
-    def __init__(self, kor, eng):
+    def __init__(self, kor: str, eng: str):
         self.kor = kor
         self.eng = eng
 
-    def cmpKor(self, other):
+    def cmpKor(self, other: str):
         return self.kor.strip() == other.strip()
 
-    def cmpEng(self, other, ignore_case):
+    def cmpEng(self, other: str, ignore_case: bool):
         if ignore_case:
             return self.eng.strip().lower() == other.strip().lower()
         else:
@@ -27,44 +23,56 @@ class Answer:
         return self.__repr__()
 
 
-def parse(lines):
-    lines = lines[1:]  # erase header of the csv file
+class Chapter:
+    def __init__(self, image_name: str):
+        self.image_name = image_name
+
+        # .index and int() both raise ValueError
+        idx = image_name.index(".")
+        self.chapter_id = int(image_name[:idx])
+        self.chapter_name = image_name[idx + 1 :]
+
+        # remove extensions
+        self.chapter_name = self.chapter_name.strip()
+        if self.chapter_name.endswith(".jpg"):
+            self.chapter_name = self.chapter_name[:-4]
+        elif self.chapter_name.endswith(".jpeg"):
+            self.chapter_name = self.chapter_name[:-5]
+        elif self.chapter_name.endswith(".png"):
+            self.chapter_name = self.chapter_name[:-4]
+
+    def __repr__(self):
+        return "[ID: %d; NAME: %s]" % (self.chapter_id, self.chapter_name)
+
+    def __str__(self):
+        return self.__repr__()
+
+
+def getAnswerSheet() -> Dict[str, Dict[str, Answer]]:
+    file = open("resources/answer.csv", "r", encoding="UTF-8")
     ret = dict()
 
-    for line in lines:
-        imageID, indiID, kor, eng = map(str.strip, line.split(","))
-        if imageID not in ret:
-            ret[imageID] = dict()
-        ret[imageID][indiID] = Answer(kor, eng)
+    file.readline()  # erase header of the csv file
+    for line in file:
+        chID, indiID, kor, eng = map(str.strip, line.split(","))
+        chID = int(chID)
+        indiID = int(indiID)
+        if chID not in ret:
+            ret[chID] = dict()
+        ret[chID][indiID] = Answer(kor, eng)
 
+    file.close()
     return ret
 
 
-def getAnswerSheet():
-    return parse(readAnswerFile())
+def imageName2chapter(image_name: str) -> Chapter:
+    return Chapter(image_name)
 
 
-def cutChapters(image_names):
-    chapters = list()
-    invalid_chapters = list()
-
-    for name in image_names:
-        try:
-            idx = name.index(".")
-            chapters.append([int(name[:idx]), name[idx + 1 :]])
-        except ValueError:
-            invalid_chapters.append(name)
-
-    chapters.sort(key=lambda x: x[0])
-    for i, (chapter_num, _) in enumerate(chapters):
-        chapters[i][0] = str(chapter_num)
-
-    return (chapters, invalid_chapters)
-
-
-def pickProblems(answer_sheet, chapter_name, problem_num):
-    image_ID = chapter_name.split(".")[0]
-    all_problems = answer_sheet[image_ID]
+def pickProblems(
+    answer_sheet: Dict[str, Dict[str, Answer]], chapter_id: int, problem_num: int
+) -> List[Tuple[int, Answer]]:
+    all_problems = answer_sheet[chapter_id]
     if len(all_problems) < problem_num:
         problem_num = len(all_problems)
     return sample(list(all_problems.items()), problem_num)
