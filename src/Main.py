@@ -24,11 +24,11 @@ from PySide6.QtWidgets import (
 )
 
 
-class Ui_Main(QWidget):
+class Home(QWidget):
     def __init__(self, answer_sheet):
         super().__init__()
-        self.config_window = Ui_Config(self)
-        self.quiz_window = Ui_Quiz(answer_sheet)
+        self.config_window = Config(self)
+        self.quiz_window = Quiz(answer_sheet)
         self.time_limit = 20
         self.ignore_case = True
         self.problem_num = 5
@@ -136,7 +136,7 @@ class Ui_Main(QWidget):
             event.ignore()
 
 
-class Ui_Config(QWidget):
+class Config(QWidget):
     def __init__(self, main_widget):
         super().__init__()
         self.main_widget = main_widget
@@ -209,7 +209,7 @@ class Ui_Config(QWidget):
         self.main_widget.setConfigBtnText()
 
 
-class Ui_Quiz(QWidget):
+class Quiz(QWidget):
     def __init__(self, answer_sheet):
         super().__init__()
         self.answer_sheet = answer_sheet
@@ -409,7 +409,7 @@ if foo != bar:
 chapters = list(filter(lambda ch: ch[0] in bar, chapters))
 
 # basic UI components
-ui_main = Ui_Main(answer_sheet)
+ui_main = Home(answer_sheet)
 
 # register chapter names
 for chapter_num, chapter_name in chapters:
