@@ -345,6 +345,10 @@ class Quiz(QWidget):
         self.clear()
         self.lineEdit_kor.setFocus()
 
+    def setQuizLabel(self):
+        indiID = self.problem_list[self.problem_idx][0]
+        self.label_quiz.setText("%s번의 이름은?" % indiID)
+
     def submit(self):
         current_answer = self.problem_list[self.problem_idx][1]
         response_kor = self.lineEdit_kor.text()
@@ -357,6 +361,7 @@ class Quiz(QWidget):
             self.wrong_responses.append((current_answer, response_kor, response_eng))
 
         self.problem_idx += 1
+        self.setQuizLabel()
         if self.problem_idx == len(self.problem_list):
             # TODO
             pass
@@ -377,7 +382,7 @@ class Quiz(QWidget):
 
         # set other UI components
         self.progressBar.setMaximum(time_limit - 1)
-        self.label_quiz.setText("asdf")
+        self.setQuizLabel()
         self.clear()
 
         self.timer.start()
