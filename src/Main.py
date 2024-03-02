@@ -20,6 +20,7 @@ from PySide6.QtWidgets import (
     QProgressBar,
     QLineEdit,
     QSpinBox,
+    QSizePolicy,
 )
 
 
@@ -221,8 +222,8 @@ class Ui_Quiz(QWidget):
         self.timer.start()
 
     def setupUi(self):
-        self.resize(640, 480)
-        self.setMinimumSize(QSize(640, 480))
+        self.resize(960, 720)
+        self.setMinimumSize(QSize(960, 720))
         self.verticalLayout = QVBoxLayout(self)
         self.verticalLayout.setObjectName("verticalLayout")
         self.label_image = QLabel(self)
@@ -236,6 +237,23 @@ class Ui_Quiz(QWidget):
         self.label_quiz.setAlignment(Qt.AlignCenter)
 
         self.verticalLayout.addWidget(self.label_quiz)
+
+        # set size policies for two labels
+        size_policy_image = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Minimum)
+        size_policy_image.setHorizontalStretch(0)
+        size_policy_image.setVerticalStretch(0)
+        size_policy_image.setHeightForWidth(
+            self.label_image.sizePolicy().hasHeightForWidth()
+        )
+        self.label_image.setSizePolicy(size_policy_image)
+
+        size_policy_quiz = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Maximum)
+        size_policy_quiz.setHorizontalStretch(0)
+        size_policy_quiz.setVerticalStretch(0)
+        size_policy_quiz.setHeightForWidth(
+            self.label_quiz.sizePolicy().hasHeightForWidth()
+        )
+        self.label_quiz.setSizePolicy(size_policy_quiz)
 
         self.line = QFrame(self)
         self.line.setObjectName("line")
@@ -334,7 +352,7 @@ class Ui_Quiz(QWidget):
             self.lineEdit_eng.setFocus()
         else:
             self.completeResponse()
-    
+
     def closeEvent(self, event):
         self.timer.stop()
         event.accept()
