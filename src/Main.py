@@ -345,6 +345,17 @@ class Quiz(QWidget):
         self.clear()
         self.lineEdit_kor.setFocus()
 
+    def getResultText(self):
+        assert self.problem_idx == len(self.problem_list)
+        if len(self.wrong_responses) == 0:
+            return "축하드립니다! 모두 맞히셨습니다."
+        else:
+            texts = map(
+                lambda x: "%s; [제출: 국문명 %s, 영문명 %s]" % (x[0], x[1], x[2]),
+                self.wrong_responses,
+            )
+            return "다음은 오답입니다.\n- " + "\n- ".join(texts)
+
     def setQuizLabel(self):
         indiID = self.problem_list[self.problem_idx][0]
         self.label_quiz.setText("%s번의 이름은?" % indiID)
@@ -361,10 +372,12 @@ class Quiz(QWidget):
             self.wrong_responses.append((current_answer, response_kor, response_eng))
 
         self.problem_idx += 1
-        self.setQuizLabel()
         if self.problem_idx == len(self.problem_list):
-            # TODO
-            pass
+            self.timer.stop()
+            QMessageBox.information(self, "Result", self.getResultText())
+            self.close()
+        else:
+            self.setQuizLabel()
 
     def prepare(self, chapter, time_limit, ignore_case, problem_num):
         self.problem_list = pickProblems(
