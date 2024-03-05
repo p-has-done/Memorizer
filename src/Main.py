@@ -236,7 +236,7 @@ class Quiz(QWidget):
         super().__init__()
         self.answer_sheet = answer_sheet
         self.setupUi()
-        self.timer = QTimer()
+        self.timer = QTimer(self)
 
         # set timer
         self.timer.setInterval(1000)
@@ -341,8 +341,10 @@ class Quiz(QWidget):
         self.timer.start()
 
     def completeResponse(self):
-        self.submit()
+        response_kor = self.lineEdit_kor.text()
+        response_eng = self.lineEdit_eng.text()
         self.clear()
+        self.submit(response_kor, response_eng)
         self.lineEdit_kor.setFocus()
 
     def getResultText(self):
@@ -360,10 +362,8 @@ class Quiz(QWidget):
         indiID = self.problem_list[self.problem_idx][0]
         self.label_quiz.setText("%s번의 이름은?" % indiID)
 
-    def submit(self):
+    def submit(self, response_kor, response_eng):
         current_answer = self.problem_list[self.problem_idx][1]
-        response_kor = self.lineEdit_kor.text()
-        response_eng = self.lineEdit_eng.text()
 
         if not (
             current_answer.cmpKor(response_kor)
