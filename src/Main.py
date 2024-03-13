@@ -45,7 +45,7 @@ class Home(QWidget):
         self.quiz_window = Quiz(answer_sheet)
 
         self.chapters = chapters
-        self.time_limit = 20
+        self.time_limit = 30
         self.ignore_case = True
         self.problem_num = 5
         self.setupUi()
@@ -176,10 +176,10 @@ class Config(QWidget):
 
         self.horizontalSlider = QSlider(self)
         self.horizontalSlider.setObjectName("horizontalSlider")
-        self.horizontalSlider.setMinimum(15)
-        self.horizontalSlider.setMaximum(25)
+        self.horizontalSlider.setMinimum(20)
+        self.horizontalSlider.setMaximum(40)
         self.horizontalSlider.setPageStep(1)
-        self.horizontalSlider.setSliderPosition(20)
+        self.horizontalSlider.setSliderPosition(30)
         self.horizontalSlider.setOrientation(Qt.Horizontal)
         self.horizontalSlider.setTickPosition(QSlider.TicksBelow)
         self.horizontalSlider.setTickInterval(1)
@@ -216,7 +216,7 @@ class Config(QWidget):
 
     def setTexts(self):
         self.setWindowTitle("Config")
-        self.label.setText("제한시간 (기본 20초)")
+        self.label.setText("제한시간 (기본 30초)")
         self.label_2.setText("영문명 대소문자 무시")
         self.label_3.setText("문제 수")
 
