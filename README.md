@@ -5,14 +5,17 @@
 개발과 문서 작성은 윈도우 10 운영 체제를 기준으로 하였습니다.
 
 ## Initial Setting
-1. 파이썬을 설치하세요.
-1. `pip`으로 PySide6, PyInstaller 및 의존 라이브러리를 설치하세요.
-1. 이곳에서 다음 명령어를 실행하세요. (명령 프롬프트)
-1. dist 폴더의 Main.exe를 복사하여 이 폴더로 붙여넣으세요.
 
-```
-pyinstaller -w -F src\Main.py
-```
+> **필독**: 이미 이 디렉토리에 Main.exe가 존재합니다. 그걸 사용하세요. 아래 내용은 스스로 빌드해보고자 하는 분들을 위한 설명입니다.
+
+1. 파이썬을 설치하세요.
+2. `pip`으로 PySide6, PyInstaller 및 의존 라이브러리를 설치하세요.
+3. 이곳에서 다음 명령어를 실행하세요. (명령 프롬프트)
+
+    ```
+    pyinstaller -w -F src\Main.py
+    ```
+4. dist 폴더의 Main.exe를 복사하여 이 폴더로 붙여넣으세요.
 
 ## Usage
 1. [resources/images](resources/images/)에 사진을 넣으세요.
