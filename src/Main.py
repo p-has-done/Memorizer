@@ -2,6 +2,7 @@
 
 from Indicator import *
 from os import listdir
+from sys import exit
 
 from PySide6.QtCore import QMetaObject, QSize, Qt, QTimer, Slot
 from PySide6.QtGui import QPixmap
